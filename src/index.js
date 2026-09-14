@@ -2,14 +2,17 @@ import express from 'express';
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.set('X-Author', 'zefirnaya');
-    res.set('Access-Control-Allow-Origin', '*');
-    res.type('text/plain').send('zefirnaya');
+app.enable('strict routing');
+
+app.get('/login/', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.end('zefirnaya');
 });
 
-app.get('/login', (req, res) => {
-    res.type('text/plain').send('zefirnaya');
+app.get('/sample/', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+    res.end('function task(x) { return x * this ** 2; }');
 });
 
 app.listen(3000);
