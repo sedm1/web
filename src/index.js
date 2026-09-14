@@ -7,18 +7,24 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/140926', (req, res) => {
+app.get('/login', (req, res) => {
     res.type('text/plain').send('zefirnaya');
 });
 
-app.get('/add/:x1/:x2', (req, res) => {
-    const result = Number(req.params.x1) + Number(req.params.x2);
-    res.type('text/plain').send(String(result));
-});
+app.get('/id/:N', async (req, res) => {
+    try {
+        const response = await fetch(`https://nd.kodaktor.ru/users/${req.params.N}`);
 
-app.get('/mpy/:y1/:y2', (req, res) => {
-    const result = Number(req.params.y1) * Number(req.params.y2);
-    res.type('text/plain').send(String(result));
+        if (!response.ok) {
+            return res.status(response.status).type('text/plain').send('error');
+        }
+
+        const data = await response.json();
+
+        res.type('text/plain').send(data.login);
+    } catch (error) {
+        res.status(500).type('text/plain').send('error');
+    }
 });
 
 
