@@ -2,14 +2,10 @@ import express from 'express';
 
 const app = express();
 
-app.get('/login', (req, res) => {
-    res.type('text/plain').send('sedm1');
-});
-
-app.get('/id/:id', async (req, res) => {
-    const response = await fetch(`https://nd.kodaktor.ru/users/${encodeURIComponent(req.params.id)}`);
-    const payload = await response.json();
-    res.type('text/plain').send(payload?.login);
+app.get('/1', (req, res) => {
+    res.set('X-Author', 'zefirnaya')
+    res.set('Access-Control-Allow-Origin', '*')
+    res.send('zefirnaya');
 });
 
 app.listen(3000);
