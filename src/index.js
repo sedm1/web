@@ -7,10 +7,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
-    res.setHeader('X-Author', 'zefirnaya');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.type('text/plain').send('zefirnaya');
+app.get('/login/', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+    res.end('zefirnaya');
+});
+
+app.get('/sample/', (req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
+    res.end('function task(x){ return x * this ** 2; }');
 });
 
 
