@@ -1,5 +1,5 @@
 services:
-  webproga:
+  web:
     build: .
     container_name: web
     restart: always
