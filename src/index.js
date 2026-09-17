@@ -3,7 +3,6 @@ import express from 'express';
 const app = express();
 
 app.use((req, res, next) => {
-    res.setHeader('X-Author', 'zefirnaya');
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
 });
