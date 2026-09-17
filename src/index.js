@@ -18,4 +18,4 @@ app.get('/sample/', (req, res) => {
     res.send('function task(x){ return x * this ** 2; }');
 });
 
-app.listen(3000, '0.0.0.0');
+app.listen(3000);
