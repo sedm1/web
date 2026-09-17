@@ -9,5 +9,5 @@ services:
       - aiphra-net
 
 networks:
-  aiphra-net:
+  local:
     external: true
