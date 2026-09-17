@@ -7,14 +7,37 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/login', (req, res) => {
+app.get('/login/', (req, res) => {
     res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
-    res.send('zefirnaya');
+    res.end('zefirnaya');
 });
 
-app.get('/sample/', (req, res) => {
+app.get('/promise/', (req, res) => {
     res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
-    res.send('function task(x){ return x * this ** 2; }');
+    res.end("function task(x){ return new Promise((resolve, reject) => x < 18 ? resolve('yes') : reject('no')); }");
 });
 
-app.listen(3000);
+app.get('/fetch/', (req, res) => {
+    res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+    res.end(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch</title>
+</head>
+<body>
+    <input id="inp">
+    <button id="bt">Fetch</button>
+    <script>
+        const inp = document.getElementById('inp');
+        document.getElementById('bt').addEventListener('click', () => {
+            fetch(inp.value)
+                .then(response => response.text())
+                .then(result => { inp.value = result; });
+        });
+    </script>
+</body>
+</html>`);
+});
+
+app.listen(3000, '0.0.0.0');
