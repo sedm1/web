@@ -1,13 +1,8 @@
 services:
   webproga:
     build: .
-    container_name: webproga_app
+    container_name: web
     restart: always
     ports:
       - "127.0.0.1:3000:3000"
-    networks:
-      - aiphra-net
 
-networks:
-  local:
-    external: true
