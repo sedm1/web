@@ -3,6 +3,8 @@ services:
     build: .
     container_name: web
     restart: always
+    environment:
+      - TZ=Europe/Moscow
     ports:
       - "127.0.0.1:3000:3000"
     networks:
