@@ -8,7 +8,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
     res.send('zefirnaya');
 });
