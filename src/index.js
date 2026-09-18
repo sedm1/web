@@ -1,4 +1,7 @@
 import express from 'express';
+import mongodb from 'mongodb';
+
+const { MongoClient } = mongodb;
 
 const app = express();
 
@@ -7,27 +10,25 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.raw({
-    type: 'multipart/form-data',
-    limit: '10mb'
-}));
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/login/', (req, res) => {
     res.send('zefirnaya');
 });
 
-app.post('/size2json/', (req, res) => {
-    const boundary = req.headers['content-type'].split('boundary=')[1];
+app.post('/insert/', async (req, res) => {
+    const { login, password, URL } = req.body;
 
-    const start = req.body.indexOf(Buffer.from('\r\n\r\n')) + 4;
-    const end = req.body.indexOf(Buffer.from(`\r\n--${boundary}`), start);
+    const client = await (new MongoClient(URL)).connect();
 
-    const image = req.body.subarray(start, end);
-
-    res.json({
-        width: image.readUInt32BE(16),
-        height: image.readUInt32BE(20)
+    await client.db().collection('users').insertOne({
+        login,
+        password
     });
+
+    await client.close();
+
+    res.send('OK');
 });
 
 app.listen(3000, '0.0.0.0');
