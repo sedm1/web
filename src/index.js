@@ -7,28 +7,27 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get(/^\/(\d{6})\/?$/, (req, res, next) => {
-    const now = new Date();
-    const pad = (value) => String(value).padStart(2, '0');
-    const day = pad(now.getDate());
-    const month = pad(now.getMonth() + 1);
-    const year = now.getFullYear();
-    const routeDate = `${day}${month}${String(year).slice(-2)}`;
+app.use(express.raw({
+    type: 'multipart/form-data',
+    limit: '10mb'
+}));
 
-    if (req.params[0] !== routeDate) {
-        return next();
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({
-        date: `${day}-${month}-${year}`,
-        login: 'zefirnaya'
-    }));
+app.get('/login/', (req, res) => {
+    res.send('zefirnaya');
 });
 
-app.get('/api/rv/:value', (req, res) => {
-    res.setHeader('Content-Type', 'text/plain; charset=UTF-8');
-    res.end([...req.params.value].reverse().join(''));
+app.post('/size2json/', (req, res) => {
+    const boundary = req.headers['content-type'].split('boundary=')[1];
+
+    const start = req.body.indexOf(Buffer.from('\r\n\r\n')) + 4;
+    const end = req.body.indexOf(Buffer.from(`\r\n--${boundary}`), start);
+
+    const image = req.body.subarray(start, end);
+
+    res.json({
+        width: image.readUInt32BE(16),
+        height: image.readUInt32BE(20)
+    });
 });
 
 app.listen(3000, '0.0.0.0');
